@@ -11,10 +11,10 @@ public class StackTestClient {
 			String s = StdIn.readString();
 			
 			if(s.equals("_") ) StdOut.println(stack.pop());
+			
 			else stack.push(s);
-			
+			StdOut.println(stack.size());
 		
-			
 		}
 	}
 }

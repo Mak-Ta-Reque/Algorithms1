@@ -18,9 +18,23 @@ public class LinkedStackOfString {
 	}
 	
 	public String pop() {
+	    if (first == null) throw new NullPointerException("The linked list is empty");
+	    
 		String item = first.item;
 		first = first.node;
 		return item;
 		
+	}
+	
+	public int size() {
+	    int count = 0;
+	    Node temp = first;
+	    
+	    while(!(temp == null)) {
+	          temp = temp.node;
+	        count ++;
+	    }
+	    
+	    return count;
 	}
 }
