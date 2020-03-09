@@ -2,10 +2,10 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 
-public class StackTestClient {
+public class QueueTestClient {
 	public static void main(String [] args) {
 		//Yet to bild 
-		Queue queue= new Queue();
+		Queue queue = new Queue();
 		while(!StdIn.isEmpty()) {
 			
 			String s = StdIn.readString();
