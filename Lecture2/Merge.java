@@ -4,7 +4,7 @@ public class Merge {
         int hi = a.length;
         int lo = 0;
         Comparable[] aux = new Comparable [hi];
-        sort(a, aux, lo, hi);
+        sort(aux, a, lo, hi-1);
         
     
         
@@ -32,7 +32,7 @@ public class Merge {
     
     private static void sort(Comparable [] aux, Comparable [] a, int lo, int hi) {
         if (hi <= lo) return;
-        int mid = (hi - lo)/2 +lo;
+        int mid = lo + (hi - lo)/2;
         sort(aux, a, lo, mid);
         sort(aux, a, mid +1, hi);
         merge(aux, a, lo, mid, hi);
