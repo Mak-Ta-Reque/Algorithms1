@@ -11,7 +11,7 @@ public class InsertionClient {
             
         }
         // Sort algorithm 
-        a = (Double[]) Shell.sort(a);
+        Merge.sort(a);
         
         for ( int  i = 0; i < N; i ++) {
             StdOut.println(a[i]);
