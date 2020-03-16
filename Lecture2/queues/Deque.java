@@ -7,20 +7,18 @@ public class Deque<Item> implements Iterable<Item> {
     
     public Deque() {
        first = null;
-       last = first;
+       Node last = null;
        size = 0;
     }
     
     private class Node {
         Item item;
         Node next;
-        Node prev;
     }
     //private Node initNode = null;
     private Node first;
     private Node last;
     private int size;
-    
     
     // construct an empty deque
     
@@ -38,32 +36,29 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the front
     public void addFirst(Item item) {
         if (item == null) throw new IllegalArgumentException("The value of item is null");
-
         Node new_first = new Node();
         new_first.item = item;
         new_first.next = first;
         first = new_first;
         size ++;
         
-        
-
         if (last == null) {
             last = first;
         }
+        
+        
         
     }
 
     // add the item to the back
     public void addLast(Item item) {
         if (item == null) throw new IllegalArgumentException("The value of item is null");
-        
         Node new_last = new Node();
         new_last.item = item;
         new_last.next = null;
         last.next = new_last;
         last = new_last;
         size ++;
-        
         if (first == null) {
             first = last;
         }
@@ -83,15 +78,14 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeLast() {
         if (last == null) throw new NoSuchElementException("Deque is empty");
         Item item = last.item;
-        Node last = first;
-        int i = 2 ;
-        while( i < size) {
+        Node last= first;
+        int i = 0;
+        while(i < size - 2) {
             last = last.next;
-            i = i + 1;
+
+            i ++;
         }
-        
         last.next = null;
-        
         size --;
         return item;
         
@@ -128,22 +122,14 @@ private class LinkedListIterator implements Iterator<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         Deque<String >deque = new Deque<String>();
-        
-        
-        
         System.out.println("Size of deque: " + deque.size);
         deque.addFirst("First");
         deque.addLast("Last");
-        String removedString = deque.removeLast();
-        System.out.println("Last: " + removedString);
-        removedString = deque.removeLast();
-        System.out.println("First: " + removedString);
         deque.addFirst("Updated first");
-        String updatedFirst = deque.removeFirst();
-        System.out.println("Updated First: " + updatedFirst);
+        String updatedFirst = (String) deque.removeFirst();
+        System.out.println("Updated First Item removed : " + updatedFirst);
         System.out.println("Size of deque: " + deque.size); 
-
-        System.out.println("Size of deque: " + deque.size); 
+        deque.removeFirst();
         
         deque.addLast("Updated Last");
         deque.addLast("last");
