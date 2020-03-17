@@ -4,11 +4,14 @@ import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private int size = 0;
+    private int size ;
     private Item[] s;
+    private int capacity;
     // construct an empty randomized queue
     public RandomizedQueue() {
-        s = (Item[]) new Object[1];
+        size = 0;
+        capacity = 10;
+        s = (Item[]) new Object[capacity];
     }
 
     // is the randomized queue empty?
@@ -24,25 +27,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         if (item == null) throw new IllegalArgumentException("Null input");
-        if (size == s.length) resize( size * 2);
+        if (size == capacity) capacity *= 2; resize(capacity);
         s[size++] = item;
     }
 
     // remove and return a random item
     public Item dequeue() {
-        if (size == 0) throw new NoSuchElementException("Queue is empty");
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
         int r = StdRandom.uniform(size);
-        if (size == s.length/4) resize(s.length/4);
         Item item = s[r];
-        shiftArray(r);
-        size--;
+        s[r] = s[--size];
+        s[size] = null;
+        if (size < capacity/4) {
+            capacity /= 2;
+            resize(capacity);
+        }
+        
         return item;
         
     }
     
     // return a random item (but do not remove it)
     public Item sample() {
-        if ( size == 0) throw new NoSuchElementException("Queue is empty");
+        if (isEmpty()) throw new NoSuchElementException("Queue is empty");
         int r = StdRandom.uniform(size);
         return s[r];
         
@@ -61,12 +68,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         s = newArray;
         
     }
-    private void shiftArray(int r) {
-        while(r < s.length - 1) {
-            s[r] = s [r +1];
-            r ++;
-        }
-    }
+ 
 
     // unit testing (required)
     public static void main(String[] args) {
@@ -74,27 +76,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     private class IterableQueue implements Iterator<Item>{
-        private Item[] iterArray = s;
-        private int iterSize = iterArray.length;
+        private int[] iterArray ;
+        private int m ;
+        
+        public IterableQueue() {
+            // TODO Auto-generated constructor stub
+            iterArray = new int[size];
+            m = 0;
+            for (int i = 0; i < size; i++) {
+                iterArray[i] = i;
+            }
+            for (int j = 0; j < size; j++) {
+                int toSwap = StdRandom.uniform(j+1);
+                int temp = iterArray[j];
+                iterArray[j] = iterArray[toSwap];
+                iterArray[toSwap] = temp;
+            }
+            
+        }
         public boolean hasNext() {
-            return (iterArray.length > 0);
+            return ( m < size);
             
 
             
         }
         public Item next() {
-           if (size == 0) throw new NoSuchElementException("Empty queue");
-           int r = StdRandom.uniform(iterSize--);
-           Item item = iterArray[r];
-           squiz(r);
-           return item;
+           if (!hasNext()) throw new NoSuchElementException("Empty queue");
+           return s[iterArray[m++]];
            
-        }
-        private void squiz(int r) {
-            while(r < iterSize) {
-                iterArray[r] = iterArray[r+1];
-                r ++;
-            }
         }
        public void remove() {
             throw new UnsupportedOperationException("This operation is not supported");
