@@ -7,8 +7,8 @@ public class Particle {
     private int count; // number of collision 
     
     public Particle(){
-        this.mass = 0.01;
-        this.radious = 0.01;
+        this.mass = 0.001;
+        this.radious = 0.001;
         
     }
     
@@ -37,9 +37,15 @@ public class Particle {
     }
     
     public double timeToHitVerticalWall() {
+        if      (vx > 0) return (1.0 - rx - radious) / vx;
+        else if (vx < 0) return (radious - rx) / vx;  
+        else             return INFINITY;
     }
     
     public double timeToHitHorizontalWall() {
+        if      (vy > 0) return (1.0 - ry - radious) / vy;
+        else if (vy < 0) return (radious - ry) / vy;
+        else             return INFINITY;
         
     }
     
@@ -61,11 +67,16 @@ public class Particle {
     }
     
     public void bounceOffVerticalWall() {
-        
+        vx = -vx;
+        count++;
     }
     
     public void bounceOffHorizontalWall() {
-        
+        vy = -vy;
+        count++;
+    }
+    public double kineticEnergy() {
+        return 0.5 * mass * (vx*vx + vy*vy);
     }
     
 }
