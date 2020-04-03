@@ -29,6 +29,7 @@ public class CollisionSystem {
         // particle-wall collisions
         double dtX = a.timeToHitVerticalWall();
         double dtY = a.timeToHitHorizontalWall();
+        System.out.println(pq.size());
         if (t + dtX <= limit) pq.insert(new Event(t + dtX, a, null));
         if (t + dtY <= limit) pq.insert(new Event(t + dtY, null, a));
     }
