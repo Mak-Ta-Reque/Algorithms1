@@ -1,3 +1,4 @@
+import java.util.Iterator;
 
 public class ST<Key extends Comparable<Key>, Value> {
     private Key [] key; // = (Key[])new Object[];
@@ -28,15 +29,21 @@ public class ST<Key extends Comparable<Key>, Value> {
         
     }
     
-    public boolean contains(Key key) {
+    public boolean contains(Key k) {
+        int m = rank(k);
+        if ( key[m].compareTo(k) == 0) {
+            return true;
+        }
+        else return false;
         
     }
     
     public Key min() {
-        
+       return key[0]; 
     }
     
     public Key max() {
+        return key[count];
         
     }
     
@@ -58,15 +65,16 @@ public class ST<Key extends Comparable<Key>, Value> {
     }
     
     public void deleteMax() {
-        
+        leftShift(count);
     }
    
     public int size(Key lo, Key hi) {
+        return rank(hi) -rank(lo);
         
     }
     
     public Iterable<Key> keys(){
-        
+        return new KeyIterable();
     }
     
     public Iterable<Key> keys(Key lo, Key hi){
@@ -134,4 +142,33 @@ public class ST<Key extends Comparable<Key>, Value> {
         value[key.length - 1] = null;
     }
     
+    private class KeyIterable implements Iterable<Key> {
+
+
+        @Override
+        public Iterator<Key> iterator() {
+            // TODO Auto-generated method stub
+            return new KeyIterator();
+        }
+
+    }
+    private class KeyIterator implements Iterator<Key>{
+        Key[] temp = key;
+        int c = count;
+        @Override
+        public boolean hasNext() {
+            // TODO Auto-generated method stub
+            return c > 0;
+        }
+
+        @Override
+        public Key next() {
+            // TODO Auto-generated method stub
+            return key[c--];
+        }
+       
+    }
+
+    
 }
+
