@@ -19,6 +19,12 @@ public class ST<Key extends Comparable<Key>, Value> {
     }
     
     public void delete(Key k) {
+        int m = rank(k);
+        if ( key[m].compareTo(k) == 0) {
+            //key[m] = null;
+            //value[m] = null;
+            leftShift(m);
+        }
         
     }
     
@@ -42,9 +48,6 @@ public class ST<Key extends Comparable<Key>, Value> {
         
     }
     
-    public int rank(Key k) {
-        
-    }
     
     public Key select(int k) {
         
@@ -69,22 +72,18 @@ public class ST<Key extends Comparable<Key>, Value> {
     public Iterable<Key> keys(Key lo, Key hi){
         
     }
+    
     public void put(Key k, Value val) {
-        if(get(k)== null) {
-            key[count] = k; value[count] = val;
-            count ++;
-            if (count >= key.length ) resize(2*count);
+        int m = rank(k);
+        if(key[m].compareTo(k) == 0) {
+            value[m] = val;
         }
         else {
-            int m = rank(k);
-            value[m] = val; 
-            
-            
-        }
+            rightShift(m);
+            key[m] = k;
+            value[m] = val;
+        } 
     }
-    
-    
-    
     
     public Value get(Key k) {
         if(k == null) return null;
@@ -118,4 +117,21 @@ public class ST<Key extends Comparable<Key>, Value> {
         value = newValue;
         key = newKey;
     }
+    private void rightShift(int index) {
+        resize(key.length +1);
+        for ( int i = key.length -1 ; i > index - 1; i -- ) {
+            key [i] = key[i-1];
+            value[i] = value[i-1];  
+        }
+    }
+    
+    private void leftShift(int m) {
+        for (int i = m; i < key.length - 1; i ++) {
+            key[i] = key[i+1];
+            value[i] = value[i+1];
+        }
+        key[key.length - 1] = null;
+        value[key.length - 1] = null;
+    }
+    
 }
