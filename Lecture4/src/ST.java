@@ -78,8 +78,11 @@ public class ST<Key extends Comparable<Key>, Value> {
     }
     
     public Iterable<Key> keys(Key lo, Key hi){
+        return new KeyIterable(Key lo, Key hi);
         
     }
+    
+
     
     public void put(Key k, Value val) {
         int m = rank(k);
@@ -153,8 +156,19 @@ public class ST<Key extends Comparable<Key>, Value> {
 
     }
     private class KeyIterator implements Iterator<Key>{
+        Key lo, hi;
         Key[] temp = key;
         int c = count;
+        public KeyIterator(Key lo, Key hi){
+            this.lo = lo;
+            this.hi = hi;
+        }
+        
+        public KeyIterator() {
+            lo = 0;
+            hi = count;
+        }
+        
         @Override
         public boolean hasNext() {
             // TODO Auto-generated method stub
