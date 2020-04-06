@@ -1,5 +1,4 @@
 import java.lang.Math;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public final class Board {
@@ -12,26 +11,25 @@ public final class Board {
     private final int zeroY;
  
     public  Board(int[][] tiles) {
-        
         this.N = tiles.length;
+        int [][] tilesT = new int [ this.N][ this.N]  ;
         int X = N-1 ; int Y = N -1;
-        this.tiles = tiles;
         for (int i = 0; i < N; i++) {
-            boolean flag = false;
             for (int j = 0; j < N; j++) {
+                tilesT[i][j] = tiles[i][j] ;
                 if(tiles[i][j] == 0 ) {
                     X = i;
                     Y = j;
-                    flag = true;
-                    break;
+                    
+                    
                 }
             }
-            if(flag) {
-                break;
-            }
+            
+            
         }
         zeroX = X;
         zeroY = Y;
+        this.tiles = tilesT;
         
     }
                                            
@@ -162,21 +160,39 @@ public final class Board {
     }
 
     // a board that is obtained by exchanging any pair of tiles
-//    public Board twin() {
-//        
-//    }
+    public Board twin() {
+        Board bb = new Board(tiles);
+        
+        if (bb.tiles[0][0] == 0) {
+            exch(bb.tiles, 1, 0, 1, 1);
+        } else if (bb.tiles[0][1] == 0) {
+            exch(bb.tiles, 1, 0, 1, 1);
+        } else {
+            exch(bb.tiles, 0, 0, 0, 1);
+        }
+        return bb;
+    }
+    private void exch(int[][] matrix, int i, int j, int p, int q) {
+        int tmp = matrix[i][j];  
+        matrix[i][j] = matrix[p][q]; 
+        matrix[p][q] = tmp;
+    }
 
     // unit testing (not graded)
     public static void main(String[] args) {
         
-        int [] [] item = {{1, 5, 0},{4,8,2},{7,6,3}};
+        int [] [] item = {{0, 5, 1},{4,8,2},{7,6,3}};
         
         Board board = new Board(item);
         System.out.println(board.toString());
+        
+        System.out.println(board.twin().toString());
         //System.out.println(board.hamming());
         //System.out.println(board.manhattan());
         for( Board it : board.neighbors()) {
+            
             System.out.println(it.toString());
+            
         }
         
     }
