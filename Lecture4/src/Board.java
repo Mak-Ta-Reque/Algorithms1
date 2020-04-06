@@ -8,10 +8,30 @@ public final class Board {
     // where tiles[row][col] = tile at (row, col)
     private final int [][] tiles;
     private final int N;
-    
+    private final int zeroX;
+    private final int zeroY;
+ 
     public  Board(int[][] tiles) {
+        
         this.N = tiles.length;
+        int X = N-1 ; int Y = N -1;
         this.tiles = tiles;
+        for (int i = 0; i < N; i++) {
+            boolean flag = false;
+            for (int j = 0; j < N; j++) {
+                if(tiles[i][j] == 0 ) {
+                    X = i;
+                    Y = j;
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag) {
+                break;
+            }
+        }
+        zeroX = X;
+        zeroY = Y;
         
     }
                                            
@@ -93,10 +113,52 @@ public final class Board {
         
         return true;
     }
+    private void addToList(int i, int j, LinkedList<Board> neighbor) {
+        if(i >= 0 && i < N && j >=0 && j < N) {
+            //System.out.println("x " + i + " " + "y " + j);
+            
+            int [][] tilesN = new int [N][N];
+            for(int k = 0; k < N; k++ ) {
+                for (int l = 0; l < N; l++) {
+                    tilesN[k][l] = tiles[k][l] ;
+                }
+            }
+            
+            int temp = tilesN[i][j];
+            //System.out.println("temp " + temp);
+            tilesN[i][j] = 0;
+            tilesN[zeroX][zeroY] = temp;
+            
+            Board board = new Board(tilesN);
+            //System.out.println(board.toString());
+            neighbor.add(board);
+        }
+    }
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
-        return new Neighbours();
+        final LinkedList<Board> neighbor = new LinkedList<Board>();
+        //return new Neighbours();
+        int n1X = zeroX +1;
+        int n1Y = zeroY;
+        //System.out.println("x " + n1X + " " + "y " + n1Y);
+        addToList(n1X,n1Y,neighbor);
+        
+        n1X = zeroX - 1;
+        n1Y = zeroY;
+        addToList(n1X,n1Y,neighbor);
+        
+        n1X = zeroX;
+        n1Y = zeroY +1;
+        addToList(n1X,n1Y,neighbor);
+        
+      
+        n1X = zeroX;
+        n1Y = zeroY -1;
+        addToList(n1X,n1Y,neighbor);
+        return neighbor;
+        
+      
     }
 
     // a board that is obtained by exchanging any pair of tiles
@@ -107,7 +169,7 @@ public final class Board {
     // unit testing (not graded)
     public static void main(String[] args) {
         
-        int [] [] item = {{1, 5, 3},{4,8,2},{7,6,0}};
+        int [] [] item = {{1, 5, 0},{4,8,2},{7,6,3}};
         
         Board board = new Board(item);
         System.out.println(board.toString());
@@ -115,95 +177,6 @@ public final class Board {
         //System.out.println(board.manhattan());
         for( Board it : board.neighbors()) {
             System.out.println(it.toString());
-        }
-        
-    }
-    
-    private class Neighbours implements Iterable<Board>{
-
-        @Override
-        public Iterator<Board> iterator() {
-            // TODO Auto-generated method stub
-           return new NeighbourIterator();
-        }
-        
-    }
-    private final class NeighbourIterator implements Iterator<Board>{
-        
-        
-        private final LinkedList<Board> neighbor = new LinkedList<Board>();
-        private int zeroX;
-        private int zeroY;
-        private NeighbourIterator() {
-           
-            for (int i = 0; i < N; i++) {
-                boolean flag = false;
-                for (int j = 0; j < N; j++) {
-                    if(tiles[i][j] == 0 ) {
-                        zeroX = i;
-                        zeroY = j;
-                        flag = true;
-                        break;
-                    }
-                }
-                if(flag) {
-                    break;
-                }
-            }
-            //System.out.println("x " + zeroX + " " + "y " + zeroY);
-            
-            int n1X = zeroX +1;
-            int n1Y = zeroY;
-            //System.out.println("x " + n1X + " " + "y " + n1Y);
-            addToList(n1X,n1Y);
-            
-            n1X = zeroX - 1;
-            n1Y = zeroY;
-            addToList(n1X,n1Y);
-            
-            n1X = zeroX;
-            n1Y = zeroY +1;
-            addToList(n1X,n1Y);
-            
-          
-            n1X = zeroX;
-            n1Y = zeroY -1;
-            addToList(n1X,n1Y);
-        }  
-            @Override
-            public boolean hasNext() {
-                // TODO Auto-generated method stub
-                
-                return neighbor.size() > 0;
-            }
-            @Override
-            public Board next() {
-                // TODO Auto-generated method stub
-                return neighbor.poll() ;
-            }
-            
-            
-        
-        private void addToList(int i, int j) {
-            if(i >= 0 && i < N && j >=0 && j < N) {
-                //System.out.println("x " + i + " " + "y " + j);
-                
-                int [][] tilesN = new int [N][N];
-                for(int k = 0; k < N; k++ ) {
-                    for (int l = 0; l < N; l++) {
-                        tilesN[k][l] = tiles[k][l] ;
-                    }
-                }
-                
-                int temp = tilesN[i][j];
-                //System.out.println("temp " + temp);
-                tilesN[i][j] = 0;
-                tilesN[zeroX][zeroY] = temp;
-                
-                Board board = new Board(tilesN);
-                //System.out.println(board.toString());
-                neighbor.add(board);
-            }
         }
         
     }
