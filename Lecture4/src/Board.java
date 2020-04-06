@@ -1,6 +1,4 @@
-import edu.princeton.cs.algs4.StdOut;
 import java.lang.Math;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -11,7 +9,7 @@ public final class Board {
     private final int [][] tiles;
     private final int N;
     
-    public Board(int[][] tiles) {
+    public  Board(int[][] tiles) {
         this.N = tiles.length;
         this.tiles = tiles;
         
@@ -109,12 +107,12 @@ public final class Board {
     // unit testing (not graded)
     public static void main(String[] args) {
         
-        int [] [] item = {{8, 1, 3},{4,0,2},{7,6,5}};
+        int [] [] item = {{1, 5, 3},{4,8,2},{7,6,0}};
         
         Board board = new Board(item);
         System.out.println(board.toString());
-        System.out.println(board.hamming());
-        System.out.println(board.manhattan());
+        //System.out.println(board.hamming());
+        //System.out.println(board.manhattan());
         for( Board it : board.neighbors()) {
             System.out.println(it.toString());
         }
@@ -152,18 +150,11 @@ public final class Board {
                     break;
                 }
             }
-//            for (int i = 0; i <= 1; i++) {
-//                for (int j  = 0; j <= 1; j++) {
-//                    int n1X = zeroX + j;
-//                    int n1Y = zeroY;
-//                }
-            
-            
-            System.out.println("x " + zeroX + " " + "y " + zeroY);
+            //System.out.println("x " + zeroX + " " + "y " + zeroY);
             
             int n1X = zeroX +1;
             int n1Y = zeroY;
-            System.out.println("x " + n1X + " " + "y " + n1Y);
+            //System.out.println("x " + n1X + " " + "y " + n1Y);
             addToList(n1X,n1Y);
             
             n1X = zeroX - 1;
@@ -183,7 +174,7 @@ public final class Board {
             public boolean hasNext() {
                 // TODO Auto-generated method stub
                 
-                return neighbor.poll() !=  null;
+                return neighbor.size() > 0;
             }
             @Override
             public Board next() {
@@ -196,19 +187,21 @@ public final class Board {
         private void addToList(int i, int j) {
             if(i >= 0 && i < N && j >=0 && j < N) {
                 //System.out.println("x " + i + " " + "y " + j);
-                int [][] tilesN = Arrays.copyOf(tiles, tiles.length);
+                
+                int [][] tilesN = new int [N][N];
+                for(int k = 0; k < N; k++ ) {
+                    for (int l = 0; l < N; l++) {
+                        tilesN[k][l] = tiles[k][l] ;
+                    }
+                }
+                
                 int temp = tilesN[i][j];
-                System.out.println("temp " + temp);
+                //System.out.println("temp " + temp);
                 tilesN[i][j] = 0;
                 tilesN[zeroX][zeroY] = temp;
-                for(int k = 0; k < tiles.length; k++ ) {
-                    for (int l = 0; l < tiles.length; l++) {
-                        System.out.print(tiles[k][l]);
-                    }
-                    System.out.println();
-                }
+                
                 Board board = new Board(tilesN);
-                System.out.println(board.toString());
+                //System.out.println(board.toString());
                 neighbor.add(board);
             }
         }
