@@ -57,6 +57,24 @@ public final class BSTST<Key extends Comparable<Key>, Value> {
         if(t != null) return t;
         return x;
     }
+    
+    public Key celing(Key key) {
+        Node x = celing(root, key);
+        if(x == null) return null;
+        return x.key;
+        
+    }
+    
+    private Node celing(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if(cmp == 0) return x;
+        if (cmp > 0) return celing(x.right, key);
+        Node t = celing(x.left, key);
+        if(t != null) return t;
+        return x;
+        
+    }
     public void delte(Key key) {
         
         
