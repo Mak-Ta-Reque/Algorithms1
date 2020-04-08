@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.Queue;
+
 public final class BSTST<Key extends Comparable<Key>, Value> {
     private Node root;
     
@@ -49,7 +51,7 @@ public final class BSTST<Key extends Comparable<Key>, Value> {
          int cmp = key.compareTo(node.key);
          if (cmp < 0) return rank(key, node.left);
          if( cmp > 0) return 1 + size(node.left) + rank(key, node.right);
-         else return size(node);
+         else return size(node.left);
     }
     
     
@@ -109,6 +111,15 @@ public final class BSTST<Key extends Comparable<Key>, Value> {
         return x.key;
         
     }
+    public Node min(Node x) {
+        if (x == null) return null;
+        while(x.left != null) {
+            x = x.left;
+        }
+        return x;
+        
+    }
+    
     
     public Key max() {
         Node x = root;
@@ -121,12 +132,47 @@ public final class BSTST<Key extends Comparable<Key>, Value> {
     }
     public void delte(Key key) {
         
+        root = delete(root, key);  
+    }
+    
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x = delete(x.left, key);
+        else if (cmp > 0) x = delete(x.right, key);
+        else {
+            if (x.left == null) return x.right;
+            if (x.right == null) return x.left;
+            
+           Node t = x;
+           x  = min(t.right);
+           x.right = deleteMin(t.right);
+           x.left = t.left;        
+        }
+        x.count = 1 + size(x.left) + size(x.right);
+        return x;
+    }
+    private Node deleteMin(Node x) {
+        if (x.left == null) return x.right;
+        x.left = deleteMin(x.left);
+        x.count = 1 + size(x.left) + size(x.right);
+        return x;
+        
+        
         
     }
     
-    public Iterator<Key> iterator(){
-        
+    public Iterable<Key> iterator(){
+        Queue <Key> q = new Queue<Key>();
+        inorder(root, q);
+        return q;
     }
     
+    private void inorder(Node x, Queue<Key> q) {
+        if (x == null) return;
+        inorder(x.left, q);
+        q.enqueue(x.key);
+        inorder(x.right, q);
+    }
 
 }
