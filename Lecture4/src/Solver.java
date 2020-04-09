@@ -25,6 +25,9 @@ public final class Solver {
         });
         pq.insert(previous);
         pq.insert(previous);
+        while (!= null) {
+            
+        }
         
         
     }

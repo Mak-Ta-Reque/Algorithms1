@@ -47,18 +47,7 @@ public class ST<Key extends Comparable<Key>, Value> {
         
     }
     
-    public Key floor() {
-        
-    }
-    
-    public Key ceiling() {
-        
-    }
-    
-    
-    public Key select(int k) {
-        
-    }
+
     
     public void deleteMin() {
         
@@ -73,16 +62,6 @@ public class ST<Key extends Comparable<Key>, Value> {
         
     }
     
-    public Iterable<Key> keys(){
-        return new KeyIterable();
-    }
-    
-    public Iterable<Key> keys(Key lo, Key hi){
-        return new KeyIterable(Key lo, Key hi);
-        
-    }
-    
-
     
     public void put(Key k, Value val) {
         int m = rank(k);
@@ -145,16 +124,7 @@ public class ST<Key extends Comparable<Key>, Value> {
         value[key.length - 1] = null;
     }
     
-    private class KeyIterable implements Iterable<Key> {
-
-
-        @Override
-        public Iterator<Key> iterator() {
-            // TODO Auto-generated method stub
-            return new KeyIterator();
-        }
-
-    }
+    
     private class KeyIterator implements Iterator<Key>{
         Key lo, hi;
         Key[] temp = key;
@@ -164,10 +134,7 @@ public class ST<Key extends Comparable<Key>, Value> {
             this.hi = hi;
         }
         
-        public KeyIterator() {
-            lo = 0;
-            hi = count;
-        }
+        
         
         @Override
         public boolean hasNext() {

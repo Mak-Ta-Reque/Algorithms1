@@ -1,4 +1,6 @@
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 public final class BSTST<Key extends Comparable<Key>, Value> {
     private Node root;
@@ -173,6 +175,19 @@ public final class BSTST<Key extends Comparable<Key>, Value> {
         inorder(x.left, q);
         q.enqueue(x.key);
         inorder(x.right, q);
+    }
+    
+    public static void main(String []args) {
+        BSTST<String, Integer> st = new BSTST<String , Integer>();
+        for (int i = 0; !StdIn.isEmpty(); i ++) {
+            String str =  StdIn.readString();
+            st.put(str, i);
+        }
+        
+        for(String s: st.iterator()) {
+            StdOut.println(s + "    " + st.get(s));
+            
+        }
     }
 
 }
