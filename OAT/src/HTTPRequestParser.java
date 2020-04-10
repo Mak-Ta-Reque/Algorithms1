@@ -1,12 +1,9 @@
+import java.io.IOException;
 
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+/*
+ * 
+ * Md. Abdul Kadir
+ */
 
 public final class HTTPRequestParser {
     /*
@@ -19,27 +16,16 @@ public final class HTTPRequestParser {
     private static final String USER = "user";
     private static final String USEREMAIL = "email";
     
-    public void parseTerm(String jsonString ) throws Exception {
-        if (jsonString == null) throw new ExceptionForwarder("The HTTP message is null in " + getClass().getName());
-        Object obj = new JSONParser().parse(jsonString);
-        JSONObject jsonObject = (JSONObject) obj; 
-       
-        
-        JSONArray ja = (JSONArray) jsonObject.get(TERMLIST); 
-        
-        // iterating phoneNumbers 
-        Iterator itr2 = ja.iterator(); 
-        Iterator<Map.Entry> itr1 ;
-        while (itr2.hasNext())  
-        { 
-            itr1 = ((Map) itr2.next()).entrySet().iterator(); 
-            while (itr1.hasNext()) { 
-                Map.Entry pair = itr1.next(); 
-                System.out.println(pair.getKey() + " : " + pair.getValue()); 
-            } 
-        } 
-        
-        
+    public void parseTerm(String jsonString ) {
+        if (jsonString == null) throw new NullPointerException("The HTTP message is null in " + getClass().getName());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            
+            
+        } catch (IOException e) {
+            // TODO: handle exception
+            e.printStackTrace(); 
+        }
     }
     
     public void parseExtentions() {
@@ -54,5 +40,23 @@ public final class HTTPRequestParser {
      "{ \"term\": \"Melanoma\",\"alias\": [],\"requestId\": \"112\"},\n"  +
      "{ \"term\": \"Lipase\",\"alias\": [],\"requestId\": \"112\"}],\"user\" : {\"email\": \"ifomis2017@gmail.com\"}}";
         new HTTPRequestParser().parseTerm(firstPost);
+    }
+    
+    private final class OatTeram{
+        public String getTermlist() {
+            return termlist;
+        }
+        public void setTermlist(String termlist) {
+            this.termlist = termlist;
+        }
+        public String getUser() {
+            return user;
+        }
+        public void setUser(String user) {
+            this.user = user;
+        }
+        private String termlist;
+        private String user;
+        
     }
 }
