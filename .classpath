@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Contact Sim/src"/>
+	<classpathentry excluding="percolation/" kind="src" path="Lecture1"/>
+	<classpathentry kind="src" path="Lecture1/percolation"/>
+	<classpathentry excluding="queues/" kind="src" path="Lecture2"/>
+	<classpathentry kind="src" path="Lecture2/queues"/>
+	<classpathentry kind="src" path="Lecture3/src"/>
+	<classpathentry kind="src" path="Lecture3/test"/>
+	<classpathentry kind="src" path="Lecture4/src"/>
+	<classpathentry kind="output" path="Contact Sim/bin"/>
+</classpath>
