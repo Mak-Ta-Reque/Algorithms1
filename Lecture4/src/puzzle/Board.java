@@ -1,8 +1,6 @@
 import java.lang.Math;
 import java.util.LinkedList;
 
-import edu.princeton.cs.algs4.StdRandom;
-
 public final class Board {
 
     // create a board from an n-by-n array of tiles,
@@ -97,7 +95,6 @@ public final class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        if (y == null) return false;
         if (this == y) return true;
         if (this.getClass() != y.getClass())
             return false;
@@ -166,15 +163,14 @@ public final class Board {
     public Board twin() {
         Board bb = new Board(tiles);
         
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N-1 ; j++) {
-                if(bb.tiles[i][j] != 0 && bb.tiles[i][j+1] != 0) {
-                    exch(bb.tiles, i, j, i, j + 1);
-                    return bb;
-                }
-            }
+        if (bb.tiles[0][0] == 0) {
+            exch(bb.tiles, 1, 0, 1, 1);
+        } else if (bb.tiles[0][1] == 0) {
+            exch(bb.tiles, 1, 0, 1, 1);
+        } else {
+            exch(bb.tiles, 0, 0, 0, 1);
         }
-        return null;
+        return bb;
     }
     private void exch(int[][] matrix, int i, int j, int p, int q) {
         int tmp = matrix[i][j];  

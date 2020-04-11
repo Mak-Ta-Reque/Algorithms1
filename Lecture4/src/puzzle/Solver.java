@@ -67,7 +67,6 @@ public final class Solver {
         tiles[N-1][N-2] = tiles[N-1][N-3];
         tiles[N-1][N-3] = last;
         unsolvableBoard = new Board(tiles); 
-        System.out.println( unsolvableBoard);
     }
     
     // min number of moves to solve initial board
