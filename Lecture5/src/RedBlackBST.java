@@ -37,15 +37,15 @@ public class RedBlackBST<Key extends Comparable, Value> {
     }
     
     public boolean contains(Key key) {
-        
+        return false;
     }
     
     public int size() {
-        
+        return 0;
     }
     
     public Iterable<Key> keys(){
-        
+        return null;
     }
     
     public static void main(String [] args) {
@@ -58,6 +58,7 @@ public class RedBlackBST<Key extends Comparable, Value> {
     }
     
     private Node rotateLeft(Node h) {
+        return null;
         
     }
     
